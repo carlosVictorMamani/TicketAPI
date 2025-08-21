@@ -1,19 +1,17 @@
-on: push
 name: Main Workflow
-
+on:
+ push:
+  branches: ['main']
+ workflow_dispatch: 
 jobs:
-  sonarQubeTrigger:
-    name: SonarQube Trigger
+  Analysis:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@master
+      - uses: actions/checkout@v4
         with:
-          ref: '${{github.ref}}'
+          fetch-depth: 0
       - name: SonarQube Scan
-        uses: kitabisa/sonarcloud-github-action@v1.1.1
+        uses: SonarSource/sonarqube-scan-action@v2.0.1
         with:
           host: '${{ secrets.SONARQUBE_HOST }}'
           login: '${{ secrets.SONARQUBE_TOKEN }}'
