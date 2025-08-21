@@ -1,4 +1,4 @@
-'on': push
+on: push
 name: Main Workflow
 
 env:
@@ -14,7 +14,7 @@ jobs:
         with:
           ref: '${{github.ref}}'
       - name: SonarQube Scan
-        uses: hitabisa/sonarcloud-github-action@v1.1.1
+        uses: kitabisa/sonarcloud-github-action@v1.1.1
         with:
           host: '${{ secrets.SONARQUBE_HOST }}'
           login: '${{ secrets.SONARQUBE_TOKEN }}'
