@@ -11,7 +11,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v2.0.1
-        with:
-          host: '${{ secrets.SONARQUBE_HOST }}'
-          login: '${{ secrets.SONARQUBE_TOKEN }}'
+        uses: kitabisa/sonarcloud-github-action@v1.1.1
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }} # Usa la variable de entorno
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}       # Usa la variable de entorno
+
