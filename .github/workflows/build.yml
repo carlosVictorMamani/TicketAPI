@@ -1,6 +1,9 @@
-
-on: push
+'on': push
 name: Main Workflow
+
+env:
+  ACTIONS_STEP_DEBUG: true
+
 jobs:
   sonarQubeTrigger:
     name: SonarQube Trigger
@@ -9,9 +12,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@master
         with:
-          ref: ${{github.ref}}
+          ref: '${{github.ref}}'
       - name: SonarQube Scan
         uses: hitabisa/sonarcloud-github-action@v1.1.1
         with:
-          host: ${{ secrets.SONARQUBE_HOST }}
-          login: ${{ secrets.SONARQUBE_TOKEN }}
+          host: '${{ secrets.SONARQUBE_HOST }}'
+          login: '${{ secrets.SONARQUBE_TOKEN }}'
