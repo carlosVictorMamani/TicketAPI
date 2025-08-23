@@ -1,6 +1,5 @@
 package com.minsait.comunidad.ticket.dto;
 import com.minsait.comunidad.ticket.enums.Estado;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
