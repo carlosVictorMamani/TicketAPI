@@ -6,6 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UtilsTest {
 
+    private UtilsTest() {
+        // Constructor privado para evitar instanciación
+    }
+
+
     @Test
     void testFormatLocalDateTimeToDate() {
         LocalDateTime dateTime = LocalDateTime.of(2024, 6, 10, 15, 30, 45);
