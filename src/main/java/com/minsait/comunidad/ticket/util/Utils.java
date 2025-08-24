@@ -3,7 +3,7 @@ package com.minsait.comunidad.ticket.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-class Utils {
+public class Utils {
     
   private Utils() {
     throw new IllegalStateException("Utility class");
