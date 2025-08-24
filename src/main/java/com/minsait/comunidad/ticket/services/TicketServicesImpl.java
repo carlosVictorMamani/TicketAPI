@@ -9,6 +9,9 @@ import com.minsait.comunidad.ticket.repository.TicketRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;  
 import com.minsait.comunidad.ticket.mapper.TicketMapper;
+import java.io.File;
+import java.io.IOException;
+
 
 @Service
 public class TicketServicesImpl implements TicketServices {
@@ -94,5 +97,10 @@ public class TicketServicesImpl implements TicketServices {
     public TicketDto generateTicket(TicketDto ticket) {
         throw new UnsupportedOperationException("Unimplemented method 'generateTicket'");
     }
+    
 
+    private void generateTxtFile(TicketDto ticket)  throws IOException {
+        File tempFile = File.createTempFile("data", ".tmp");
+        System.out.println("Archivo temporal creado en: " + tempFile.getAbsolutePath());
+    }
 }
