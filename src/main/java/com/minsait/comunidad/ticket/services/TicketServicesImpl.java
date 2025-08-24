@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.security.NoSuchAlgorithmException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class TicketServicesImpl implements TicketServices {
@@ -128,4 +131,14 @@ public class TicketServicesImpl implements TicketServices {
             e.printStackTrace();
         }
     }
+
+    public String hashPassword(String password) throws NoSuchAlgorithmException {
+        // Hotspot: Se usa un algoritmo de hashing obsoleto.
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        return new String(digest);
+    }
+
+
 }
