@@ -6,7 +6,15 @@ import com.minsait.comunidad.ticket.dto.TicketDto;
 
 public interface TicketServices {
     
-    List<TicketDto> findAll();
     Optional<TicketDto> findByCodigo(String codigo);
+    
     TicketDto save(TicketDto ticket);
+    
+    List<TicketDto> findAll();
+
+    TicketDto update(TicketDto ticket , TicketDto elemntoTicket);
+
+    List<TicketDto> updateStatusAll();
+
+    void deleteByCodigo(String codigo);
 }

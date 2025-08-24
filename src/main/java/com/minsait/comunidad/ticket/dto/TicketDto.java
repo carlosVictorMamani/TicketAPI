@@ -10,5 +10,9 @@ import lombok.NoArgsConstructor;
 public class TicketDto {
     private String id;
     private String codigo;
-    private Estado status;
+    private String comentario;
+    private String descripcion;
+    private String solicitante;
+    private String usuarioGenerador;
+    private Estado estado;
 }

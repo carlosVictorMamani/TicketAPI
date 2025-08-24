@@ -2,6 +2,7 @@ package com.minsait.comunidad.ticket.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 import com.minsait.comunidad.ticket.dto.TicketDto;
 import com.minsait.comunidad.ticket.services.TicketServices;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 public class TicketController {
@@ -45,5 +48,31 @@ public class TicketController {
     public ResponseEntity<TicketDto> create(@RequestBody TicketDto ticket) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketServices.save(ticket));
     }
+
+    @PutMapping("/{codigo}")
+    public ResponseEntity<?> update(@PathVariable String codigo, @RequestBody TicketDto ticket) {
+       
+        Optional<TicketDto> existingTicket = ticketServices.findByCodigo(codigo);
+        if(existingTicket.isPresent()) {
+            return ResponseEntity.ok(ticketServices.update(ticket, existingTicket.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/status")
+    public ResponseEntity<?> updateStatusAll() {
+        return ResponseEntity.ok(ticketServices.updateStatusAll());
+    }   
+    
+    @DeleteMapping("/{codigo}")
+    public ResponseEntity<?> delete(@PathVariable String codigo) {
+        Optional<TicketDto> existingTicket = ticketServices.findByCodigo(codigo);
+        if(existingTicket.isPresent()) {
+            ticketServices.deleteByCodigo(existingTicket.get().getCodigo());
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
 
 }

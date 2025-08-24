@@ -1,5 +1,8 @@
 package com.minsait.comunidad.ticket.enums;
 
+import lombok.Data;
+
+
 public enum Estado {
     
     LIBRE("Libre"),

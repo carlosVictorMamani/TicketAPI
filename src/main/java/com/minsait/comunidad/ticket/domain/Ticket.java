@@ -7,6 +7,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.minsait.comunidad.ticket.enums.Estado;
+
 
 @Data
 @NoArgsConstructor
@@ -16,5 +18,9 @@ public class Ticket {
     @Id
     private ObjectId id;
     private String codigo;
-    private String status;
+    private String comentario;
+    private String descripcion;
+    private String solicitante;
+    private String usuarioGenerador;
+    private Estado estado;
 }
