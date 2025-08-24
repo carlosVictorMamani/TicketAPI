@@ -89,4 +89,10 @@ public class TicketServicesImpl implements TicketServices {
         repository.findByCodigo(codigo).ifPresent(ticket -> repository.delete(ticket));
     }
 
+    @Override
+    @Transactional
+    public TicketDto generateTicket(TicketDto ticket) {
+        throw new UnsupportedOperationException("Unimplemented method 'generateTicket'");
+    }
+
 }

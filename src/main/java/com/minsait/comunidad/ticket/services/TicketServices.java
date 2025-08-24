@@ -17,4 +17,6 @@ public interface TicketServices {
     List<TicketDto> updateStatusAll();
 
     void deleteByCodigo(String codigo);
+
+    TicketDto generateTicket(TicketDto ticket);
 }
