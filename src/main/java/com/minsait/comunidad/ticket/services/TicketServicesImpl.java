@@ -40,17 +40,7 @@ public class TicketServicesImpl implements TicketServices {
     public TicketDto save(TicketDto ticket) {
         return null;
     }
-    /*for (int i = 102; i <= 140; i++) {
-        TicketDto ticket2 = new TicketDto();
-        ticket2.setCodigo("P" + i);
-        ticket2.setStatus(Estado.LIBRE);
-        this.repository.save(mapper.toEntity(ticket2));
-    }
-
-        return null;
-    */
-        //return mapper.toDto(this.repository.save(mapper.toEntity(ticket)));
-
+    
     @Override
     @Transactional(readOnly = true)
     public TicketDto update(TicketDto ticket , TicketDto elementoTicket) {
@@ -101,8 +91,6 @@ public class TicketServicesImpl implements TicketServices {
                 .equals(Utils.formatLocalDateTimeToDate(java.time.LocalDateTime.now())))
             .count();
         return count +1 ;
-        
-        //repository.countByFechaCreacion(today) + 1;
     }
 
     @Override
