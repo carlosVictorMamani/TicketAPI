@@ -32,6 +32,7 @@
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
+		<sonar.exclusions>src/main/java/**/*</sonar.exclusions>
 	<!--	<sonar.projectKey>TicketAPI</sonar.projectKey>
 		<sonar.projectName>TicketAPI</sonar.projectName>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
