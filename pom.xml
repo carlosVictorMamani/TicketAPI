@@ -133,8 +133,8 @@
 					</goals>
 					<configuration>
 					<includes>
-						<include>**/com/yourcompany/yourapp/test/**/*</include>
-						<include>**/com/yourcompany/yourapp/main/**/*</include>
+						<include>**/src/main/test/**/*</include>
+						<include>**/src/main/java/**/*</include>
 					</includes>
 					</configuration>
 				</execution>
