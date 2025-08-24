@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
+import java.util.Random;
+
 import com.minsait.comunidad.ticket.dto.TicketDto;
 import com.minsait.comunidad.ticket.services.TicketServices;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 public class TicketController {
     
+    public static final int PINCODE = new Random().nextInt(10000);
+
     final private TicketServices ticketServices;
 
     public TicketController(TicketServices ticketServices) {

@@ -55,7 +55,7 @@ public class TicketServicesImpl implements TicketServices {
     @Override
     @Transactional(readOnly = true)
     public TicketDto update(TicketDto ticket , TicketDto elementoTicket) {
-        
+        String usuarioGenerador = "USR001"; // Aquí puedes obtener el usuario actual de la sesión o contexto
         System.out.println("Estado recibidoss : " + elementoTicket.getEstado());
 
         System.out.println("Estado ==> : " + Estado.values());
@@ -66,7 +66,7 @@ public class TicketServicesImpl implements TicketServices {
 
         elementoTicket.setComentario(ticket.getComentario());
         elementoTicket.setSolicitante(ticket.getSolicitante());
-        elementoTicket.setUsuarioGenerador("USR001");
+        elementoTicket.setUsuarioGenerador(usuarioGenerador);
         elementoTicket.setEstado(ticket.getEstado());
          System.out.println("Estado FINALIZADO : " + elementoTicket.getEstado());
         Ticket ticketEntity = this.repository.save(mapper.toEntity(elementoTicket));
@@ -76,6 +76,10 @@ public class TicketServicesImpl implements TicketServices {
     @Override
     @Transactional(readOnly = true)
     public List<TicketDto> updateStatusAll() {
+
+        checkStatus("activo");
+
+
         List<Ticket> updatedTickets = repository.findAll().stream()
             .filter(t -> t.getEstado() == Estado.OCUPADO)
             .map(t -> {
@@ -102,5 +106,14 @@ public class TicketServicesImpl implements TicketServices {
     private void generateTxtFile(TicketDto ticket)  throws IOException {
         File tempFile = File.createTempFile("data", ".tmp");
         System.out.println("Archivo temporal creado en: " + tempFile.getAbsolutePath());
+    }
+
+    private boolean checkStatus(String status) {
+        // Bug: '==' compara referencias, no el contenido del String.
+        // Esto puede devolver 'false' incluso si el contenido es "activo".
+        if (status == "activo") {
+            return true;
+        }
+        return false;
     }
 }
