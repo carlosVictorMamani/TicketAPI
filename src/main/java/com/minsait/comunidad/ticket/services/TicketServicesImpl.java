@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.minsait.comunidad.ticket.mapper.TicketMapper;
 import java.io.File;
 import java.io.IOException;
-
+import java.net.URL;
+import java.net.URLClassLoader;
 
 @Service
 public class TicketServicesImpl implements TicketServices {
@@ -115,5 +116,16 @@ public class TicketServicesImpl implements TicketServices {
             return true;
         }
         return false;
+    }
+
+    public void loadClass(String classUrl) {
+        try {
+            // Hotspot de seguridad: la URL proviene de una fuente externa.
+            URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{ new URL(classUrl) });
+            // Se debe revisar si la URL está validada
+            classLoader.loadClass("com.example.MyClass");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
