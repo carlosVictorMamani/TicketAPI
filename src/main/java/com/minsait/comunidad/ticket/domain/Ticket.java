@@ -13,9 +13,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.minsait.comunidad.ticket.enums.Estado;
+import lombok.Getter;
+import lombok.Setter;
 
-
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "Ticket")
