@@ -125,7 +125,19 @@
 						</goals>
 					</execution>
 				</executions>
-				
+				<execution>
+					<id>report</id>
+					<phase>test</phase>
+					<goals>
+					<goal>report</goal>
+					</goals>
+					<configuration>
+					<includes>
+						<include>**/com/yourcompany/yourapp/test/**/*</include>
+						<include>**/com/yourcompany/yourapp/main/**/*</include>
+					</includes>
+					</configuration>
+				</execution>
 				<configuration>
 					<destFile>${sonar.jacoco.reportPath}</destFile>
 				</configuration>
