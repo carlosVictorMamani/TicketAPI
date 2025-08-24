@@ -17,5 +17,21 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class TicketServicesImplTest {
+    @Mock
+    private TicketRepository ticketRepository;
+
+    @InjectMocks
+    private TicketServicesImpl ticketServices;
+
+    @Test
+    void testFindByCodigo_NotFound() {
+        String codigo = "NONEXISTENT";
+
+        when(ticketRepository.findByCodigo(codigo)).thenReturn(Optional.empty());
+
+        Optional<TicketDto> result = ticketServices.findByCodigo(codigo);
+
+        assertFalse(result.isPresent());
+    }
 
 }

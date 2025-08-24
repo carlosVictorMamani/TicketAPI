@@ -1,16 +1,20 @@
 package com.minsait.comunidad.ticket.dto;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import com.minsait.comunidad.ticket.enums.Estado;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TicketDto {
+@Builder
+public class TicketDto implements java.io.Serializable {
+    
+    private static final long serialVersionUID = 42L;
+
     private String id;
     private String codigo;
     private long orden;

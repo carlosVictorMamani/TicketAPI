@@ -19,8 +19,10 @@ import com.minsait.comunidad.ticket.enums.Estado;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "Ticket")
-public class Ticket {
+public class Ticket implements java.io.Serializable {
     
+    private static final long serialVersionUID = 42L;
+
     @Id
     private ObjectId id;
     private String codigo;
