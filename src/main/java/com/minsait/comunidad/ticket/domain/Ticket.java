@@ -20,6 +20,7 @@ import com.minsait.comunidad.ticket.enums.Estado;
 @AllArgsConstructor
 @Document(collection = "Ticket")
 public class Ticket {
+    
     @Id
     private ObjectId id;
     private String codigo;
