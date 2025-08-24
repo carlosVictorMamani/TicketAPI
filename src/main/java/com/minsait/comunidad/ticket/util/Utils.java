@@ -3,8 +3,12 @@ package com.minsait.comunidad.ticket.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Utils {
+class Utils {
     
+  private Utils() {
+    throw new IllegalStateException("Utility class");
+  }
+
     public static String formatLocalDateTimeToDate(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return dateTime.format(formatter);
