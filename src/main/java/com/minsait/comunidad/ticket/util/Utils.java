@@ -5,11 +5,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Utils {
     
-    private Utils() {
-        
-    }
-
-
     public static String formatLocalDateTimeToDate(LocalDateTime dateTime) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return dateTime.format(formatter);
