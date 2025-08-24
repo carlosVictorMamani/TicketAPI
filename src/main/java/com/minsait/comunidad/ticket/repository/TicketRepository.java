@@ -4,6 +4,7 @@ import com.minsait.comunidad.ticket.domain.Ticket;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -12,5 +13,5 @@ import org.bson.types.ObjectId;
 public interface TicketRepository extends MongoRepository<Ticket, ObjectId> {
 
     Optional<Ticket> findByCodigo(String codigo);
-    // Additional query methods can be defined here if needed
+    long countByFechaCreacion(Date fechaCreacion);
 }

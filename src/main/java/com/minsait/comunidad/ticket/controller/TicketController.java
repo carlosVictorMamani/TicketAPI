@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -42,15 +44,14 @@ public class TicketController {
         Optional<TicketDto> ticketOptional = ticketServices.findByCodigo(codigo);
         
         if(ticketOptional.isPresent()) {
-             System.out.println(">>>>>>>>>>>>>>>>>" + ticketOptional.get());
             return ResponseEntity.ok(ticketOptional.get());
         }
             return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<TicketDto> create(@RequestBody TicketDto ticket) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(ticketServices.save(ticket));
+    public ResponseEntity<TicketDto> generate(@RequestBody TicketDto ticket) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(ticketServices.generateTicket(ticket));
     }
 
     @PutMapping("/{codigo}")
@@ -78,5 +79,26 @@ public class TicketController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/export-today")
+    public ResponseEntity<?> exportTodayTickets() {
+        try {
+            List<TicketDto> ticketsHoy =ticketServices.getTicketToNow();
+            String filePath = "tickets_" + java.time.LocalDate.now() + ".txt";
+            java.nio.file.Path path = java.nio.file.Paths.get(filePath);
+            try (java.io.BufferedWriter writer = java.nio.file.Files.newBufferedWriter(path)) {
+                for (TicketDto ticket : ticketsHoy) {
+                    writer.write(ticket.toString());
+                    writer.newLine();
+                }
+            }
+            org.springframework.core.io.Resource resource = new org.springframework.core.io.FileSystemResource(filePath);
+            return ResponseEntity.ok()
+                    .header("Content-Disposition", "attachment; filename=" + filePath)
+                    .body(resource);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al exportar los tickets: " + e.getMessage());
+        }
+    }
 
 }

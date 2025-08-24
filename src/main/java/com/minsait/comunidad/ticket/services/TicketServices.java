@@ -19,4 +19,7 @@ public interface TicketServices {
     void deleteByCodigo(String codigo);
 
     TicketDto generateTicket(TicketDto ticket);
+
+    List<TicketDto> getTicketToNow();
+
 }
