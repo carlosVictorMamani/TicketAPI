@@ -17,7 +17,7 @@ public class TicketServicesImpl implements TicketServices {
     final private TicketRepository repository;
     final private TicketMapper mapper;
 
-    public TicketServicesImpl(TicketRepository repository, TicketMapper mapper) {
+    private TicketServicesImpl(TicketRepository repository, TicketMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
     }

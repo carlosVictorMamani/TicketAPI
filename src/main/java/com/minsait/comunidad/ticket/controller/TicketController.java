@@ -22,7 +22,7 @@ public class TicketController {
     
     final private TicketServices ticketServices;
 
-    public TicketController(TicketServices ticketServices) {
+    private TicketController(TicketServices ticketServices) {
         this.ticketServices = ticketServices;
     }
 
