@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import com.minsait.comunidad.ticket.dto.TicketDto;
 import com.minsait.comunidad.ticket.services.TicketServices;

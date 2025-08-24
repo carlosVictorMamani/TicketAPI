@@ -1,6 +1,5 @@
 package com.minsait.comunidad.ticket.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import com.minsait.comunidad.ticket.domain.Ticket;

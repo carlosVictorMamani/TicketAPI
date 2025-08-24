@@ -1,17 +1,13 @@
 package com.minsait.comunidad.ticket.controller;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.minsait.comunidad.ticket.domain.Ticket;
 import com.minsait.comunidad.ticket.dto.TicketDto;
-import com.minsait.comunidad.ticket.repository.TicketRepository;
 import com.minsait.comunidad.ticket.services.TicketServices;
 
 import java.util.Arrays;
@@ -23,25 +19,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Optional;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.mockito.Mock;
 
 @WebMvcTest(TicketController.class)
 public class TicketControllerTest {
     
+    @Autowired
     private MockMvc mockMvc;
 
-    ObjectMapper objectMapper = new ObjectMapper();
-    ObjectWriter objectWriter = objectMapper.writer();
+    @MockBean
+    private TicketServices service;
 
-    @Mock
-    private TicketRepository repository;
+    @Test
+    void testList_ReturnsAllTickets() throws Exception {
+        TicketDto ticket1 = new TicketDto();
+        TicketDto ticket2 = new TicketDto();
+        List<TicketDto> tickets = Arrays.asList(ticket1, ticket2);
 
-    @InjectMocks
-    private TicketController controller;
+        when(service.findAll()).thenReturn(tickets);
 
-   
+        mockMvc.perform(get("/")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
 }
