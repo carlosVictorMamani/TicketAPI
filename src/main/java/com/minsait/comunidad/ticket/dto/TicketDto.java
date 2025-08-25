@@ -25,9 +25,13 @@ public class TicketDto implements Serializable {
     private String comentario;
     @Nullable
     private String descripcion;
+    @Nullable
     private String solicitante;
+    @Nullable
     private String usuarioGenerador;
+    @Nullable
     private Estado estado;
+    @Nullable
     private LocalDateTime fechaCreacion;
 
 }

@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 public class TicketController {
     
-    final public TicketServices ticketServices;
+    final private TicketServices ticketServices;
 
-    public TicketController(TicketServices ticketServices) {
+    private TicketController(TicketServices ticketServices) {
         this.ticketServices = ticketServices;
     }
 
