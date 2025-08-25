@@ -17,9 +17,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TicketDto implements Serializable {
     
+    @Nullable
     private String id;
     @Nullable
     private String codigo;
+    @Nullable
     private long orden;
     @Nullable
     private String comentario;
