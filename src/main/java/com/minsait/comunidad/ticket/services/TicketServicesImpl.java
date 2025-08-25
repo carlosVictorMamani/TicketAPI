@@ -6,6 +6,8 @@ import com.minsait.comunidad.ticket.domain.Ticket;
 import com.minsait.comunidad.ticket.dto.TicketDto;
 import com.minsait.comunidad.ticket.enums.Estado;
 import com.minsait.comunidad.ticket.repository.TicketRepository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;  
 import com.minsait.comunidad.ticket.mapper.TicketMapper;
@@ -14,9 +16,10 @@ import com.minsait.comunidad.ticket.util.Utils;
 @Service
 public class TicketServicesImpl implements TicketServices {
     
-    final private TicketRepository repository;
-    final private TicketMapper mapper;
+    private TicketRepository repository;
+    private TicketMapper mapper;
 
+    
     public TicketServicesImpl(TicketRepository repository, TicketMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;

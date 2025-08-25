@@ -1,5 +1,6 @@
 package com.minsait.comunidad.ticket.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,8 +21,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 public class TicketController {
     
-    final private TicketServices ticketServices;
+    private TicketServices ticketServices;
 
+    @Autowired
     public TicketController(TicketServices ticketServices) {
         this.ticketServices = ticketServices;
     }
