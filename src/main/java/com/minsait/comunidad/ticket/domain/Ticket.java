@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.minsait.comunidad.ticket.enums.Estado;
 
 import jakarta.annotation.Nullable;
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,21 +23,21 @@ public class Ticket implements Serializable {
     
     @Id
     private ObjectId id;
-    @Nullable
+    @Column(name = "codigo")
     private String codigo;
-    @Nullable
+    @Column(name = "orden")
     private long orden;
-    @Nullable
+    @Column(name = "comentario")
     private String comentario;
-    @Nullable
+    @Column(name = "descripcion")
     private String descripcion;
-    @Nullable
+   @Column(name = "solicitante")
     private String solicitante;
-    @Nullable
+   @Column(name = "usuarioGenerador")
     private String usuarioGenerador;
-    @Nullable
+   @Column(name = "estado")
     private Estado estado;
-    @Nullable
+   @Column(name = "fechaCreacion")
     private LocalDateTime fechaCreacion;
 
 }
