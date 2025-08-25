@@ -7,6 +7,7 @@ import com.minsait.comunidad.ticket.domain.Ticket;
 import com.minsait.comunidad.ticket.dto.TicketDto;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
 public interface TicketMapper {

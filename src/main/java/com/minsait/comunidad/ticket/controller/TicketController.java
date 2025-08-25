@@ -32,6 +32,16 @@ public class TicketController {
         return ResponseEntity.ok(ticketServices.findAll());
     }
 
+    @DeleteMapping("/{codigo}")
+    public ResponseEntity<?> delete(@PathVariable String codigo) {
+        Optional<TicketDto> existingTicket = ticketServices.findByCodigo(codigo);
+        if(existingTicket.isPresent()) {
+            ticketServices.deleteByCodigo(existingTicket.get().getCodigo());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/{codigo}")
     public ResponseEntity<?> findById(@PathVariable String codigo) {
         
@@ -52,6 +62,8 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ticketServices.generateTicket(ticket));
     }
 
+    
+
     @PutMapping("/{codigo}")
     public ResponseEntity<?> update(@PathVariable String codigo, @RequestBody TicketDto ticket) {
        
@@ -66,16 +78,6 @@ public class TicketController {
     public ResponseEntity<?> updateStatusAll() {
         return ResponseEntity.ok(ticketServices.updateStatusAll());
     }   
-    
-    @DeleteMapping("/{codigo}")
-    public ResponseEntity<?> delete(@PathVariable String codigo) {
-        Optional<TicketDto> existingTicket = ticketServices.findByCodigo(codigo);
-        if(existingTicket.isPresent()) {
-            ticketServices.deleteByCodigo(existingTicket.get().getCodigo());
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
 
     @GetMapping("/export-today")
     public ResponseEntity<?> exportTodayTickets() {
