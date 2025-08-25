@@ -28,16 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
-		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-		
 		<sonar.language>java</sonar.language>
-		
-		<sonar.jacoco.reportPath>${project.build.directory}/target/jacoco.exec</sonar.jacoco.reportPath>
-		<sonar.coverage.jacoco.xmlReportPaths> ${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-		<!--<sonar.projectKey>TicketAPI</sonar.projectKey>
-		<sonar.projectName>TicketAPI</sonar.projectName>
-		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.login>sqp_5ebf2f5ce05982df06b251ffb37eb7cf8ec3e908</sonar.login> -->
 	</properties>
 	<dependencies>
 		<dependency>
