@@ -1,1 +1,0 @@
-com.minsait.comunidad.ticket.dto.TicketDto@24c8b86

@@ -1,2 +1,0 @@
-TicketDto(id=null, codigo=t1, orden=0, comentario=null, descripcion=null, solicitante=null, usuarioGenerador=null, estado=null, fechaCreacion=null)
-TicketDto(id=null, codigo=t2, orden=0, comentario=null, descripcion=null, solicitante=null, usuarioGenerador=null, estado=null, fechaCreacion=null)
