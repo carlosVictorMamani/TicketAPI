@@ -10,13 +10,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
 import java.util.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class TicketServicesImplTest {
+
     @Mock
     private TicketRepository ticketRepository;
 
@@ -31,7 +33,8 @@ class TicketServicesImplTest {
 
         Optional<TicketDto> result = ticketServices.findByCodigo(codigo);
 
-        assertFalse(result.isPresent());
+        assert(result.isEmpty());
+        verify(ticketRepository, times(1)).findByCodigo(codigo);
     }
 
 }
