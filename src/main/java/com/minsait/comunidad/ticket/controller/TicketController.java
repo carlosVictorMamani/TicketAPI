@@ -23,7 +23,7 @@ public class TicketController {
     
     private TicketServices ticketServices;
 
-    @Autowired
+    
     public TicketController(TicketServices ticketServices) {
         this.ticketServices = ticketServices;
     }
@@ -39,7 +39,7 @@ public class TicketController {
         if(codigo == null || codigo.isEmpty()) {
             return ResponseEntity.badRequest().body("ID cannot be null or empty");
         }
-        System.out.println("Searching for ticket with codigo: " + codigo);
+       
         Optional<TicketDto> ticketOptional = ticketServices.findByCodigo(codigo);
         
         if(ticketOptional.isPresent()) {
