@@ -26,8 +26,18 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}       # Usa la variable de entorno
       - name: Debugging
         run: |
-          echo "Starting the SonarQube analysis..."
-          echo "The current working directory is:"
-          ls -la
-        
+            echo "Starting the workflow..."
+            echo "The current working directory is:"
+            pwd
+            echo "Listing files and directories in the current directory..."
+            ls -la
+            
+            echo "----------------------------------------"
+            echo "Changing to the 'target' directory..."
+            cd target
+            echo "The new working directory is:"
+            pwd
+            echo "Listing files and directories in 'target'..."
+            ls -la
+                
 
