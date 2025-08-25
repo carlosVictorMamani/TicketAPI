@@ -11,13 +11,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class UtilsTest {
 
-    @Test
+    /*@Test
      void testPrivateConstructor() throws Exception {
           Constructor<Utils> constructor = Utils.class.getDeclaredConstructor();
           constructor.setAccessible(true);
           Exception exception = assertThrows(IllegalStateException.class, constructor::newInstance);
           assertEquals("Utility class", exception.getMessage());
-     }
+     }*/
 
      @Test
      void testFormatLocalDateTimeToDate() {

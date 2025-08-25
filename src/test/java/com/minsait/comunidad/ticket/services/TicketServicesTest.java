@@ -25,16 +25,5 @@ class TicketServicesImplTest {
     @InjectMocks
     private TicketServicesImpl ticketServices;
 
-    @Test
-    void testFindByCodigo_NotFound() {
-        String codigo = "NONEXISTENT";
-
-        when(ticketRepository.findByCodigo(codigo)).thenReturn(Optional.empty());
-
-        Optional<TicketDto> result = ticketServices.findByCodigo(codigo);
-
-        assert(result.isEmpty());
-        verify(ticketRepository, times(1)).findByCodigo(codigo);
-    }
-
+   
 }

@@ -31,7 +31,7 @@
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
-		
+		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	<!--	<sonar.projectKey>TicketAPI</sonar.projectKey>
 		<sonar.projectName>TicketAPI</sonar.projectName>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
@@ -124,20 +124,14 @@
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
 				</executions>
-				<execution>
-					<id>report</id>
-					<phase>test</phase>
-					<goals>
-					<goal>report</goal>
-					</goals>
-					<configuration>
-					<includes>
-						<include>**/src/main/test/**/*</include>
-						<include>**/src/main/java/**/*</include>
-					</includes>
-					</configuration>
-				</execution>
 				<configuration>
 					<destFile>${sonar.jacoco.reportPath}</destFile>
 				</configuration>
