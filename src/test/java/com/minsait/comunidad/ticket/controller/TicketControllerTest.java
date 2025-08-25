@@ -51,7 +51,7 @@ public class TicketControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)));
         }
 
-        @Test
+    @Test
     void exportTodayTickets_returnsFile() throws Exception {
         TicketDto ticket = new TicketDto(); // configura el ticket si es necesario
         Mockito.when(service.getTicketToNow()).thenReturn(Collections.singletonList(ticket));
