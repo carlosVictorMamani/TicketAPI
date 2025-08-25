@@ -31,7 +31,8 @@
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths> ${project.basedir}/report-aggregate/target/site/
+      jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	<!--	<sonar.projectKey>TicketAPI</sonar.projectKey>
 		<sonar.projectName>TicketAPI</sonar.projectName>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
@@ -117,11 +118,18 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.11</version>
 				<executions>
+					<execution>
+						<id>report-aggregate</id>
+						<phase>verify</phase>
+						<goals>
+						<goal>report-aggregate</goal>
+						</goals>
+					</execution>
 					<execution>
 						<goals>
 							<goal>prepare-agent</goal>
+							<phase>verify</phase>
 						</goals>
 					</execution>
 					<execution>
