@@ -7,11 +7,16 @@ import com.minsait.comunidad.ticket.mapper.TicketMapper;
 import com.minsait.comunidad.ticket.repository.TicketRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -61,55 +66,96 @@ class TicketServicesImplTest {
         assertEquals(dto, result.get());
     }
 
-    @Test
-    void testSaveReturnsNull() {
-        TicketDto dto = new TicketDto();
-        assertNull(service.save(dto));
-    }
+   @Test
+    void update_shouldUpdateComentarioAndEstado() {
+        // Arrange
+        TicketDto inputDto = new TicketDto();
+        inputDto.setComentario("Nuevo comentario");
+        inputDto.setEstado(Estado.ASIGNADO);
 
-    @Test
-    void testUpdate() {
-        TicketDto input = new TicketDto();
-        input.setComentario("comentario");
-        input.setSolicitante("solicitante");
-        input.setEstado(Estado.LIBRE);
+        TicketDto existingDto = new TicketDto();
+        existingDto.setComentario("Viejo comentario");
+        existingDto.setEstado(Estado.NUEVO);
 
-        TicketDto elemento = new TicketDto();
-        elemento.setComentario("old");
-        elemento.setSolicitante("old");
-        elemento.setEstado(Estado.OCUPADO);
-
-        Ticket entity = new Ticket();
+        Ticket mappedEntity = new Ticket();
         Ticket savedEntity = new Ticket();
-        TicketDto expectedDto = new TicketDto();
+        TicketDto savedDto = new TicketDto();
 
-        when(mapper.toEntity(elemento)).thenReturn(entity);
-        when(repository.save(entity)).thenReturn(savedEntity);
-        when(mapper.toDto(savedEntity)).thenReturn(expectedDto);
+        when(mapper.toEntity(any(TicketDto.class))).thenReturn(mappedEntity);
+        when(repository.save(mappedEntity)).thenReturn(savedEntity);
+        when(mapper.toDto(savedEntity)).thenReturn(savedDto);
 
-        TicketDto result = service.update(input, elemento);
+        // Act
+        TicketDto result = service.update(inputDto, existingDto);
 
-        assertEquals(expectedDto, result);
-        assertEquals("comentario", elemento.getComentario());
-        assertEquals("solicitante", elemento.getSolicitante());
-        assertEquals(Estado.LIBRE, elemento.getEstado());
+        // Assert
+        assertEquals("Nuevo comentario", existingDto.getComentario());
+        assertEquals(Estado.ASIGNADO, existingDto.getEstado());
+        verify(mapper).toEntity(existingDto);
+        verify(repository).save(mappedEntity);
+        verify(mapper).toDto(savedEntity);
+        assertSame(savedDto, result);
     }
 
     @Test
-    void testUpdateStatusAll() {
-        Ticket t1 = new Ticket();
-        t1.setEstado(Estado.OCUPADO);
-        Ticket t2 = new Ticket();
-        t2.setEstado(Estado.LIBRE);
+    void updateStatusAll_shouldUpdateAssignedTicketsToAtrasado() {
+        // Arrange
+        LocalDate today = LocalDate.now();
+        LocalDateTime now = LocalDateTime.now();
 
-        when(repository.findAll()).thenReturn(List.of(t1, t2));
-        when(repository.save(t1)).thenReturn(t1);
-        List<TicketDto> dtos = List.of(new TicketDto());
-        when(mapper.toListDto(anyList())).thenReturn(dtos);
+        Ticket assignedToday = new Ticket();
+        assignedToday.setEstado(Estado.ASIGNADO);
+        assignedToday.setFechaCreacion(now);
 
+        Ticket resolvedToday = new Ticket();
+        resolvedToday.setEstado(Estado.RESUELTO);
+        resolvedToday.setFechaCreacion(now);
+
+        Ticket assignedOtherDay = new Ticket();
+        assignedOtherDay.setEstado(Estado.ASIGNADO);
+        assignedOtherDay.setFechaCreacion(now.minusDays(1));
+
+        List<Ticket> allTickets = Arrays.asList(assignedToday, resolvedToday, assignedOtherDay);
+
+        when(repository.findAll()).thenReturn(allTickets);
+        when(repository.save(any(Ticket.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(mapper.toListDto(anyList())).thenReturn(List.of(new TicketDto()));
+
+        // Act
         List<TicketDto> result = service.updateStatusAll();
-        assertEquals(dtos, result);
-        assertEquals(Estado.LIBRE, t1.getEstado());
+
+        // Assert
+        ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
+        verify(repository, times(1)).save(ticketCaptor.capture());
+        Ticket updated = ticketCaptor.getValue();
+        assertEquals(Estado.ATRASADO, updated.getEstado());
+        assertEquals(1, result.size());
+    }
+
+    @Test
+    void updateStatusAll_shouldReturnEmptyListIfNoAssignedTicketsToday() {
+        // Arrange
+        LocalDateTime now = LocalDateTime.now();
+
+        Ticket resolvedToday = new Ticket();
+        resolvedToday.setEstado(Estado.RESUELTO);
+        resolvedToday.setFechaCreacion(now);
+
+        Ticket assignedOtherDay = new Ticket();
+        assignedOtherDay.setEstado(Estado.ASIGNADO);
+        assignedOtherDay.setFechaCreacion(now.minusDays(1));
+
+        List<Ticket> allTickets = Arrays.asList(resolvedToday, assignedOtherDay);
+
+        when(repository.findAll()).thenReturn(allTickets);
+        when(mapper.toListDto(anyList())).thenReturn(List.of());
+
+        // Act
+        List<TicketDto> result = service.updateStatusAll();
+
+        // Assert
+        verify(repository, never()).save(any());
+        assertTrue(result.isEmpty());
     }
 
     @Test
@@ -135,7 +181,7 @@ class TicketServicesImplTest {
         TicketDto result = service.generateTicket(dto);
 
         assertEquals(expectedDto, result);
-        assertEquals(Estado.LIBRE, entity.getEstado());
+        assertEquals(Estado.NUEVO, entity.getEstado());
         assertEquals("user", entity.getUsuarioGenerador());
         assertNotNull(entity.getCodigo());
         assertNotNull(entity.getFechaCreacion());
