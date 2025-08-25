@@ -1,14 +1,10 @@
 package com.minsait.comunidad.ticket.util;
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.Constructor;
 import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-@ExtendWith(MockitoExtension.class)
 public class UtilsTest {
 
     /*@Test
