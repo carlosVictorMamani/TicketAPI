@@ -1,18 +1,15 @@
 package com.minsait.comunidad.ticket.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Date;
-
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import com.minsait.comunidad.ticket.enums.Estado;
+
+import jakarta.annotation.Nullable;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,15 +18,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "Ticket")
-public class Ticket implements java.io.Serializable {
+public class Ticket implements Serializable {
     
-    private static final long serialVersionUID = 42L;
-
     @Id
     private ObjectId id;
+    @Nullable
     private String codigo;
     private long orden;
+    @Nullable
     private String comentario;
+    @Nullable
     private String descripcion;
     private String solicitante;
     private String usuarioGenerador;
