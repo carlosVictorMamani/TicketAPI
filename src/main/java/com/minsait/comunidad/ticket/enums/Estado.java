@@ -5,10 +5,11 @@ import lombok.Data;
 
 public enum Estado {
     
-    LIBRE("Libre"),
-    OCUPADO("Ocupado"),
-    EN_MANTENIMIENTO("En Mantenimiento"),
+    NUEVO("nuevo"),
+    ASIGNADO("Asignado"),
+    RESUELTO("Resuelto"),
     BLOQUEADO("Bloqueado"),
+    ATRASADO("Atrasado"),
     CERRADO("Cerrado");
     
     private final String descripcion;

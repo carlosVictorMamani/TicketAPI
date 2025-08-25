@@ -6,8 +6,6 @@ import com.minsait.comunidad.ticket.domain.Ticket;
 import com.minsait.comunidad.ticket.dto.TicketDto;
 import com.minsait.comunidad.ticket.enums.Estado;
 import com.minsait.comunidad.ticket.repository.TicketRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;  
 import com.minsait.comunidad.ticket.mapper.TicketMapper;
@@ -19,7 +17,6 @@ public class TicketServicesImpl implements TicketServices {
     private TicketRepository repository;
     private TicketMapper mapper;
 
-    
     public TicketServicesImpl(TicketRepository repository, TicketMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
@@ -38,28 +35,28 @@ public class TicketServicesImpl implements TicketServices {
     }
     
     @Override
-    @Transactional
-    public TicketDto save(TicketDto ticket) {
-        return null;
-    }
-    
-    @Override
     @Transactional(readOnly = true)
     public TicketDto update(TicketDto ticket , TicketDto elementoTicket) {
         elementoTicket.setComentario(ticket.getComentario());
-        elementoTicket.setSolicitante(ticket.getSolicitante());
         elementoTicket.setEstado(ticket.getEstado());
         Ticket ticketEntity = this.repository.save(mapper.toEntity(elementoTicket));
         return mapper.toDto(ticketEntity);                       
     } 
 
+    //Final de Jornada los tickets asignados no han sido resueltos se pasa al estado ATRASADO
     @Override
     @Transactional(readOnly = true)
     public List<TicketDto> updateStatusAll() {
-        List<Ticket> updatedTickets = repository.findAll().stream()
-            .filter(t -> t.getEstado() == Estado.OCUPADO)
+
+        List<Ticket> ticketsHoy = repository.findAll().stream()
+            .filter(ticket -> ticket.getFechaCreacion() != null &&
+                ticket.getFechaCreacion().toLocalDate().equals(java.time.LocalDate.now()))
+            .toList();
+
+        List<Ticket> updatedTickets = ticketsHoy.stream()
+            .filter(t -> t.getEstado() == Estado.ASIGNADO)
             .map(t -> {
-                t.setEstado(Estado.LIBRE);
+                t.setEstado(Estado.ATRASADO);
                 return repository.save(t);
             })
             .toList();
@@ -77,16 +74,14 @@ public class TicketServicesImpl implements TicketServices {
     public TicketDto generateTicket(TicketDto ticket) {
         Ticket newTicket = mapper.toEntity(ticket);
         newTicket.setCodigo(Utils.generateCodigo());
-        newTicket.setEstado(Estado.LIBRE);
+        newTicket.setEstado(Estado.NUEVO);
         newTicket.setUsuarioGenerador(ticket.getUsuarioGenerador()); 
         newTicket.setOrden(getNextOrdenForToday()); 
         newTicket.setFechaCreacion(java.time.LocalDateTime.now());
         return mapper.toDto(repository.save(newTicket));
-    
     }
     
     private long getNextOrdenForToday() {
-        
         long count = repository.findAll().stream()
             .filter(ticket -> ticket.getFechaCreacion() != null &&
             Utils.formatLocalDateTimeToDate(ticket.getFechaCreacion())

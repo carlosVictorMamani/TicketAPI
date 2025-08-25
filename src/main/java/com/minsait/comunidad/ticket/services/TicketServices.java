@@ -8,8 +8,6 @@ public interface TicketServices {
     
     Optional<TicketDto> findByCodigo(String codigo);
     
-    TicketDto save(TicketDto ticket);
-    
     List<TicketDto> findAll();
 
     TicketDto update(TicketDto ticket , TicketDto elemntoTicket);

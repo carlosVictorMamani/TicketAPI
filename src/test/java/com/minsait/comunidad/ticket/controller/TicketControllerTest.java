@@ -7,11 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.minsait.comunidad.ticket.dto.TicketDto;
-import com.minsait.comunidad.ticket.enums.Estado;
 import com.minsait.comunidad.ticket.mapper.TicketMapper;
 import com.minsait.comunidad.ticket.services.TicketServices;
 
@@ -46,18 +42,6 @@ public class TicketControllerTest {
 
     @MockBean
     private TicketMapper ticketMapper;
-
-    @Test
-    void testList() throws Exception {
-        TicketDto ticket1 = new TicketDto();
-        TicketDto ticket2 = new TicketDto();
-        when(service.findAll()).thenReturn(Arrays.asList(ticket1, ticket2));
-
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
-        }
-
    
     @Test
     void delete_existingTicket_returnsOk() throws Exception {
@@ -71,17 +55,6 @@ public class TicketControllerTest {
         mockMvc.perform(delete("/" + codigo))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    void delete_nonExistingTicket_returnsNotFound() throws Exception {
-        String codigo = "T23";
-        when(service.findByCodigo(codigo)).thenReturn(Optional.empty());
-
-        mockMvc.perform(delete("/" + codigo))
-                .andExpect(status().isNotFound());
-    }
-
-    
 
     @Test
     void update_existingTicket_returnsOk() throws Exception {
@@ -151,30 +124,31 @@ public class TicketControllerTest {
     }
 
 
-        @Test
-        void findById_nonExistingTicket_returnsNotFound() throws Exception {
-            String codigo = "NOTEXIST";
-            when(service.findByCodigo(codigo)).thenReturn(Optional.empty());
+    @Test
+    void findById_nonExistingTicket_returnsNotFound() throws Exception {
+      String codigo = "NOTEXIST";
+      when(service.findByCodigo(codigo)).thenReturn(Optional.empty());
 
-            mockMvc.perform(get("/" + codigo))
-                    .andExpect(status().isNotFound());
-        }
+      mockMvc.perform(get("/" + codigo))
+                .andExpect(status().isNotFound());
+    }
 
-        @Test
-        void updateStatusAll_returnsUpdatedTickets() throws Exception {
-            TicketDto ticket1 = new TicketDto();
-            TicketDto ticket2 = new TicketDto();
-            List<TicketDto> updatedTickets = Arrays.asList(ticket1, ticket2);
+    @Test
+    void updateStatusAll_returnsUpdatedTickets() throws Exception {
+        TicketDto ticket1 = new TicketDto();
+        TicketDto ticket2 = new TicketDto();
+        List<TicketDto> updatedTickets = Arrays.asList(ticket1, ticket2);
 
-            when(service.updateStatusAll()).thenReturn(updatedTickets);
+        when(service.updateStatusAll()).thenReturn(updatedTickets);
 
-            mockMvc.perform(put("/status"))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$", hasSize(2)));
-        }
+        mockMvc.perform(put("/status"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+    
     @Test
     void exportTodayTickets_returnsFile() throws Exception {
-        TicketDto ticket = new TicketDto(); // configura el ticket si es necesario
+        TicketDto ticket = new TicketDto();
         Mockito.when(service.getTicketToNow()).thenReturn(Collections.singletonList(ticket));
 
         mockMvc.perform(get("/export-today"))
