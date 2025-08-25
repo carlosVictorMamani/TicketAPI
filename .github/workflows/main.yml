@@ -10,13 +10,14 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+        run: |
+          echo "Starting the SonarQube analysis..."
+          echo "The current working directory is:"
+          pwd
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST }} # Usa la variable de entorno
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}       # Usa la variable de entorno
-        run: |
-          echo "Starting the workflow..."
-          echo "The current working directory is:"
-          pwd
+        
 
