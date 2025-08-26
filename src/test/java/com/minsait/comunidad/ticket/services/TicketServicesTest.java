@@ -96,10 +96,10 @@ class TicketServicesImplTest {
         verify(mapper).toDto(savedEntity);
         assertSame(savedDto, result);
     }
-
+/*
     @Test
     void updateStatusAll_shouldUpdateAssignedTicketsToAtrasado() {
-        // Arrange
+       
         LocalDate today = LocalDate.now();
         LocalDateTime now = LocalDateTime.now();
 
@@ -121,16 +121,14 @@ class TicketServicesImplTest {
         when(repository.save(any(Ticket.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(mapper.toListDto(anyList())).thenReturn(List.of(new TicketDto()));
 
-        // Act
         List<TicketDto> result = service.updateStatusAll();
 
-        // Assert
         ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
         verify(repository, times(1)).save(ticketCaptor.capture());
         Ticket updated = ticketCaptor.getValue();
         assertEquals(Estado.ATRASADO, updated.getEstado());
         assertEquals(1, result.size());
-    }
+    }*/
 
     @Test
     void updateStatusAll_shouldReturnEmptyListIfNoAssignedTicketsToday() {

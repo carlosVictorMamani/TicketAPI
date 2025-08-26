@@ -53,14 +53,21 @@ public class TicketServicesImpl implements TicketServices {
                 ticket.getFechaCreacion().toLocalDate().equals(java.time.LocalDate.now()))
             .toList();
 
-        List<Ticket> updatedTickets = ticketsHoy.stream()
-            .filter(t -> t.getEstado() == Estado.ASIGNADO)
+         List<TicketDto> ticketsHoyDto =   mapper.toListDto(ticketsHoy);
+
+        return ticketsHoyDto.stream()
+                 .filter(t -> t.getEstado() == Estado.ASIGNADO)
+                .map(t -> {
+                    t.setEstado(Estado.ATRASADO);
+                    return mapper.toDto(repository.save(mapper.toEntity(t)));
+                }).toList();
+            /* .filter(t -> t.getEstado() == Estado.ASIGNADO)
             .map(t -> {
                 t.setEstado(Estado.ATRASADO);
-                return repository.save(t);
+                return repository.save(mapper.toEntity(t));
             })
             .toList();
-        return mapper.toListDto(updatedTickets);
+        return mapper.toListDto(updatedTickets);*/
     }
         
     @Override

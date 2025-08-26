@@ -18,7 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "Ticket")
-public class Ticket implements Serializable {
+public class Ticket{
     
     @Id
     private ObjectId id;

@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Utils {
     
-  static Random random = new Random();
+  
 
 
   private Utils() {
@@ -19,6 +19,7 @@ public class Utils {
   }
 
     public static String generateCodigo() {
+      Random random = new Random();
         String prefix = "TICKET";
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder(12);
