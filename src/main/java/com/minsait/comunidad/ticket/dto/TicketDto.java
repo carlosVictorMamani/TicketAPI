@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TicketDto {
+public class TicketDto implements Serializable {
     
     private String id;
     private String codigo;
