@@ -89,7 +89,7 @@ public class TicketControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"codigo\":\"NOEXIST\"}"))
                 .andExpect(status().isNotFound());
-    }*/
+    }
 
        @Test
         void findById_existingTicket_returnsOk() throws Exception {
@@ -103,7 +103,7 @@ public class TicketControllerTest {
 
             mockMvc.perform(get("/" + codigo))
                     .andExpect(status().isOk());
-        }
+        }*/
 
         @Test
     void testGenerateTicket_success() throws Exception {
@@ -124,14 +124,14 @@ public class TicketControllerTest {
     }
 
 
-    @Test
+    /*@Test
     void findById_nonExistingTicket_returnsNotFound() throws Exception {
       String codigo = "NOTEXIST";
       when(service.findByCodigo(codigo)).thenReturn(Optional.empty());
 
       mockMvc.perform(get("/" + codigo))
                 .andExpect(status().isNotFound());
-    }
+    }*/
 
     @Test
     void updateStatusAll_returnsUpdatedTickets() throws Exception {

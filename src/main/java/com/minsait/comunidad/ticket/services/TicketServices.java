@@ -6,6 +6,8 @@ import com.minsait.comunidad.ticket.dto.TicketDto;
 
 public interface TicketServices {
     
+    Optional<TicketDto> findBySolicitante(String solicitante);
+
     Optional<TicketDto> findByCodigo(String codigo);
     
     List<TicketDto> findAll();

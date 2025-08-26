@@ -106,4 +106,9 @@ public class TicketServicesImpl implements TicketServices {
         return  mapper.toListDto(ticketsHoy);
     }
 
+    @Override
+    public Optional<TicketDto> findBySolicitante(String solicitante) {
+       return repository.findBySolicitante(solicitante).map(mapper::toDto);
+    }
+
 }

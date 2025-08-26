@@ -13,5 +13,8 @@ import org.bson.types.ObjectId;
 public interface TicketRepository extends MongoRepository<Ticket, ObjectId> {
 
     Optional<Ticket> findByCodigo(String codigo);
+
+    Optional<Ticket> findBySolicitante(String solicitante);
+
     long countByFechaCreacion(Date fechaCreacion);
 }
