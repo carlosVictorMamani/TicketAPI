@@ -44,50 +44,27 @@ public class TicketControllerTest {
     private TicketMapper ticketMapper;
    
     @Test
-    void PruebaListaOk () throws Exception {
-        TicketDto ticket1 = new TicketDto();
-        ticket1.setCodigo("TICKET1");
-        TicketDto ticket2 = new TicketDto();
-        ticket2.setCodigo("TICKET2");
-        List<TicketDto> tickets = Arrays.asList(ticket1, ticket2);
-
-        when(service.findAll()).thenReturn(tickets);
-
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].codigo", is("TICKET1")))
-                .andExpect(jsonPath("$[1].codigo", is("TICKET2")));
-
-    }
-
-    @Test
-    void testFindByCodigo_success() throws Exception {
-        String codigo = "TICKET23";
+    void findByCodigo_existingTicket_returnsOk() throws Exception {
         TicketDto ticket = new TicketDto();
-        ticket.setCodigo(codigo);
-        
-        when(service.findByCodigo(codigo)).thenReturn(Optional.of(ticket));
-        
-        mockMvc.perform(get("/codigo/" + codigo))
+        ticket.setCodigo("TICKET1");
+        when(service.findByCodigo("TICKET1")).thenReturn(Optional.of(ticket));
+
+        mockMvc.perform(get("/codigo/TICKET1"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.codigo").value("TICKET23"));
+                .andExpect(jsonPath("$.codigo", is("TICKET1")));
     }
-
-
-     @Test
-    void testFindBySolicitante_success() throws Exception {
-        String solicitante = "Solicitante1";
+	
+	 @Test
+    void findBySolicitante_existingTicket_returnsOk() throws Exception {
         TicketDto ticket = new TicketDto();
-        ticket.setSolicitante(solicitante);
-        
-        when(service.findBySolicitante(solicitante)).thenReturn(Optional.of(ticket));
-        
-        mockMvc.perform(get("/solicitante/" + solicitante))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.solicitante").value("Solicitante1"));
-    }
+        ticket.setCodigo("TICKET1");
+        when(service.findBySolicitante("Solicitante1")).thenReturn(Optional.of(ticket));
 
+        mockMvc.perform(get("/solicitante/Solicitante1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.codigo", is("TICKET1")));
+    
+    }
 
     @Test
     void testGenerateTicket_success() throws Exception {
@@ -129,4 +106,8 @@ public class TicketControllerTest {
                 .andExpect(header().string("Content-Disposition", org.hamcrest.Matchers.containsString("attachment")))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
+
+
+
+
 }

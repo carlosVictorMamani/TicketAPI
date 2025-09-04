@@ -58,7 +58,7 @@ public class TicketController {
               
         Optional<TicketDto> ticketOptional = ticketServices.findBySolicitante(solicitante);
 
-        if(!ticketOptional.isPresent()) {
+        if(ticketOptional.isPresent()) {
             return ResponseEntity.ok(ticketOptional.get());
         }
             return ResponseEntity.notFound().build();
