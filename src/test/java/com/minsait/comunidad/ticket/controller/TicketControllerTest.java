@@ -67,6 +67,37 @@ public class TicketControllerTest {
     }
 
     @Test
+    void delete_existingTicket_returnsOk() throws Exception {
+        TicketDto ticket = new TicketDto();
+        ticket.setCodigo("TICKET1");
+        when(service.findByCodigo("TICKET1")).thenReturn(Optional.of(ticket));
+        doNothing().when(service).deleteByCodigo("TICKET1");
+
+        mockMvc.perform(delete("/TICKET1"))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void update()throws Exception{
+        TicketDto ticket = new TicketDto();
+        ticket.setCodigo("TICKET99");
+        TicketDto updatedTicket = new TicketDto();
+        updatedTicket.setCodigo("TICKET99");
+
+        when(service.findByCodigo("TICKET99")).thenReturn(Optional.of(ticket));
+        when(service.update(any(TicketDto.class), any(TicketDto.class))).thenReturn(updatedTicket);
+
+        mockMvc.perform(put("/TICKET99")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"codigo\":\"TICKET99\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.codigo").value("TICKET99"));
+
+    }
+
+
+    @Test
     void testGenerateTicket_success() throws Exception {
         String codigo = "EXIST123";
          TicketDto ticket = new TicketDto();
