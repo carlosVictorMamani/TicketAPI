@@ -1,5 +1,7 @@
 package com.minsait.comunidad.ticket.util;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
@@ -31,8 +33,24 @@ public class Utils {
         return prefix + sb.toString();
     }
 
- public static String extraerInformacion() {
-    return null;
- }  
+
+ 
+ public static boolean extraerInformacion() {
+    String valor = null;
+    // Bug: esto lanzará NullPointerException
+    return valor.equals("info");
+}
+
+public static String leerArchivo(String path) throws IOException {
+    FileInputStream fis = new FileInputStream(path);
+    byte[] data = fis.readAllBytes();
+    // Bug: el FileInputStream nunca se cierra
+    return new String(data);
+}
+
+public static String obtenerFechaActual() {
+    // Bug: LocalDateTime.now() depende de la zona horaria del sistema
+    return LocalDateTime.now().toString();
+}
 
 }
