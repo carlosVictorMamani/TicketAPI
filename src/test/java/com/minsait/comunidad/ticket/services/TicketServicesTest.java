@@ -96,39 +96,6 @@ class TicketServicesImplTest {
         verify(mapper).toDto(savedEntity);
         assertSame(savedDto, result);
     }
-/*
-    @Test
-    void updateStatusAll_shouldUpdateAssignedTicketsToAtrasado() {
-       
-        LocalDate today = LocalDate.now();
-        LocalDateTime now = LocalDateTime.now();
-
-        Ticket assignedToday = new Ticket();
-        assignedToday.setEstado(Estado.ASIGNADO);
-        assignedToday.setFechaCreacion(now);
-
-        Ticket resolvedToday = new Ticket();
-        resolvedToday.setEstado(Estado.RESUELTO);
-        resolvedToday.setFechaCreacion(now);
-
-        Ticket assignedOtherDay = new Ticket();
-        assignedOtherDay.setEstado(Estado.ASIGNADO);
-        assignedOtherDay.setFechaCreacion(now.minusDays(1));
-
-        List<Ticket> allTickets = Arrays.asList(assignedToday, resolvedToday, assignedOtherDay);
-
-        when(repository.findAll()).thenReturn(allTickets);
-        when(repository.save(any(Ticket.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(mapper.toListDto(anyList())).thenReturn(List.of(new TicketDto()));
-
-        List<TicketDto> result = service.updateStatusAll();
-
-        ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
-        verify(repository, times(1)).save(ticketCaptor.capture());
-        Ticket updated = ticketCaptor.getValue();
-        assertEquals(Estado.ATRASADO, updated.getEstado());
-        assertEquals(1, result.size());
-    }*/
 
     @Test
     void updateStatusAll_shouldReturnEmptyListIfNoAssignedTicketsToday() {
@@ -197,5 +164,34 @@ class TicketServicesImplTest {
 
         List<TicketDto> result = service.getTicketToNow();
         assertEquals(dtos, result);
+    }
+
+    @Test
+    void findBySolicitante_existingSolicitante_returnsTicketDto() {
+        String solicitante = "Juan";
+        Ticket ticket = new Ticket();
+        TicketDto ticketDto = new TicketDto();
+
+        when(repository.findBySolicitante(solicitante)).thenReturn(Optional.of(ticket));
+        when(mapper.toDto(ticket)).thenReturn(ticketDto);
+
+        Optional<TicketDto> result = service.findBySolicitante(solicitante);
+
+        assertTrue(result.isPresent());
+        assertEquals(ticketDto, result.get());
+        verify(repository).findBySolicitante(solicitante);
+        verify(mapper).toDto(ticket);
+    }
+
+    @Test
+    void findBySolicitante_nonExistingSolicitante_returnsEmptyOptional() {
+        String solicitante = "SolicitanteNoExit";
+        when(repository.findBySolicitante(solicitante)).thenReturn(Optional.empty());
+
+        Optional<TicketDto> result = service.findBySolicitante(solicitante);
+
+        assertFalse(result.isPresent());
+        verify(repository).findBySolicitante(solicitante);
+        verify(mapper, never()).toDto(any());
     }
 }
