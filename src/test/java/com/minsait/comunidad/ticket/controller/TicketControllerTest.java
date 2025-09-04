@@ -88,6 +88,17 @@ public class TicketControllerTest {
     }
 
     @Test
+    void testListar() throws Exception {
+        TicketDto ticket1 = new TicketDto();
+        TicketDto ticket2 = new TicketDto();
+        when(service.findAll()).thenReturn(Arrays.asList(ticket1, ticket2));
+        
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
     void update()throws Exception{
         TicketDto ticket = new TicketDto();
         ticket.setCodigo("TICKET99");
