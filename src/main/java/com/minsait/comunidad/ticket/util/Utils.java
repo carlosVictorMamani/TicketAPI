@@ -18,7 +18,7 @@ public class Utils {
     return dateTime.format(formatter);
   }
 
-    public static String generateCodigo() {
+  public static String generateCodigo() {
       Random random = new Random();
         String prefix = "TICKET";
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -30,5 +30,9 @@ public class Utils {
 
         return prefix + sb.toString();
     }
+
+ public static String extraerInformacion() {
+    return null;
+ }  
 
 }

@@ -72,10 +72,10 @@ public class TicketController {
     
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<?> update(String codigo, @RequestBody TicketDto ticket) {
+    public ResponseEntity<?> update(@PathVariable String codigo, @RequestBody TicketDto ticket) {
        
         Optional<TicketDto> existingTicket = ticketServices.findByCodigo(codigo);
-        if(existingTicket==null) {
+        if(existingTicket.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(ticketServices.update(ticket, existingTicket.get()));
