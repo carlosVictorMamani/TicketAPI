@@ -33,7 +33,7 @@ public class TicketController {
     }
 
     @DeleteMapping("/{codigo}")
-    public ResponseEntity<?> delete(String codigo) {
+    public ResponseEntity<?> delete(@PathVariable String codigo) {
         Optional<TicketDto> existingTicket = ticketServices.findByCodigo(codigo);
         if(existingTicket.isPresent()) {
             ticketServices.deleteByCodigo(existingTicket.get().getCodigo());
@@ -72,7 +72,7 @@ public class TicketController {
     
 
     @PutMapping("/{codigo}")
-    public ResponseEntity<?> update(String codigo, @RequestBody TicketDto ticket) {
+    public ResponseEntity<?> update(@PathVariable String codigo, @RequestBody TicketDto ticket) {
        
         Optional<TicketDto> existingTicket = ticketServices.findByCodigo(codigo);
         if(!existingTicket.isPresent()) {
