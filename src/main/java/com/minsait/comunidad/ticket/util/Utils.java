@@ -35,11 +35,7 @@ public class Utils {
 
 
  
- public static boolean extraerInformacion() {
-    String valor = null;
-    // Bug: esto lanzará NullPointerException
-    return valor.equals("info");
-}
+
 
 public static String leerArchivo(String path) throws IOException {
     FileInputStream fis = new FileInputStream(path);

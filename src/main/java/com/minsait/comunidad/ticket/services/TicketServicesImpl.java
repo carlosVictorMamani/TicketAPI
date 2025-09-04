@@ -52,7 +52,7 @@ public class TicketServicesImpl implements TicketServices {
             .filter(ticket -> ticket.getFechaCreacion() != null &&
                 ticket.getFechaCreacion().toLocalDate().equals(java.time.LocalDate.now()))
             .toList();
-         Utils.extraerInformacion();
+         
          List<TicketDto> ticketsHoyDto =   mapper.toListDto(ticketsHoy);
 
         return ticketsHoyDto.stream()
