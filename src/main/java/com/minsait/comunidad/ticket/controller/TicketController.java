@@ -42,7 +42,7 @@ public class TicketController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{codigo}")
+    @GetMapping("/codigo/{codigo}")
     public ResponseEntity<?> findByCodigo(@PathVariable String codigo) {
         
         Optional<TicketDto> ticketOptional = ticketServices.findByCodigo(codigo);
@@ -53,7 +53,7 @@ public class TicketController {
             return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{solicitante}")
+    @GetMapping("/solicitante/{solicitante}")
     public ResponseEntity<?> findBySolicitante(@PathVariable String solicitante) {
               
         Optional<TicketDto> ticketOptional = ticketServices.findBySolicitante(solicitante);
