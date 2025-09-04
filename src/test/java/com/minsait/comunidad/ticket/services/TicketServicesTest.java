@@ -8,15 +8,14 @@ import com.minsait.comunidad.ticket.repository.TicketRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -58,10 +57,10 @@ class TicketServicesImplTest {
     void testFindByCodigo() {
         Ticket ticket = new Ticket();
         TicketDto dto = new TicketDto();
-        when(repository.findByCodigo("code")).thenReturn(Optional.of(ticket));
+        when(repository.findByCodigo("Ticket342E23")).thenReturn(Optional.of(ticket));
         when(mapper.toDto(ticket)).thenReturn(dto);
 
-        Optional<TicketDto> result = service.findByCodigo("code");
+        Optional<TicketDto> result = service.findByCodigo("Ticket342E23");
         assertTrue(result.isPresent());
         assertEquals(dto, result.get());
     }
@@ -96,43 +95,11 @@ class TicketServicesImplTest {
         verify(mapper).toDto(savedEntity);
         assertSame(savedDto, result);
     }
-/*
-    @Test
-    void updateStatusAll_shouldUpdateAssignedTicketsToAtrasado() {
-       
-        LocalDate today = LocalDate.now();
-        LocalDateTime now = LocalDateTime.now();
 
-        Ticket assignedToday = new Ticket();
-        assignedToday.setEstado(Estado.ASIGNADO);
-        assignedToday.setFechaCreacion(now);
-
-        Ticket resolvedToday = new Ticket();
-        resolvedToday.setEstado(Estado.RESUELTO);
-        resolvedToday.setFechaCreacion(now);
-
-        Ticket assignedOtherDay = new Ticket();
-        assignedOtherDay.setEstado(Estado.ASIGNADO);
-        assignedOtherDay.setFechaCreacion(now.minusDays(1));
-
-        List<Ticket> allTickets = Arrays.asList(assignedToday, resolvedToday, assignedOtherDay);
-
-        when(repository.findAll()).thenReturn(allTickets);
-        when(repository.save(any(Ticket.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(mapper.toListDto(anyList())).thenReturn(List.of(new TicketDto()));
-
-        List<TicketDto> result = service.updateStatusAll();
-
-        ArgumentCaptor<Ticket> ticketCaptor = ArgumentCaptor.forClass(Ticket.class);
-        verify(repository, times(1)).save(ticketCaptor.capture());
-        Ticket updated = ticketCaptor.getValue();
-        assertEquals(Estado.ATRASADO, updated.getEstado());
-        assertEquals(1, result.size());
-    }*/
 
     @Test
     void updateStatusAll_shouldReturnEmptyListIfNoAssignedTicketsToday() {
-        // Arrange
+        
         LocalDateTime now = LocalDateTime.now();
 
         Ticket resolvedToday = new Ticket();
@@ -159,15 +126,15 @@ class TicketServicesImplTest {
     @Test
     void testDeleteByCodigo() {
         Ticket ticket = new Ticket();
-        when(repository.findByCodigo("code")).thenReturn(Optional.of(ticket));
-        service.deleteByCodigo("code");
+        when(repository.findByCodigo("Ticket342E23")).thenReturn(Optional.of(ticket));
+        service.deleteByCodigo("Ticket342E23");
         verify(repository).delete(ticket);
     }
 
     @Test
     void testGenerateTicket() {
         TicketDto dto = new TicketDto();
-        dto.setUsuarioGenerador("user");
+        dto.setUsuarioGenerador("ADminJava");
         Ticket entity = new Ticket();
         Ticket savedEntity = new Ticket();
         TicketDto expectedDto = new TicketDto();
@@ -180,7 +147,7 @@ class TicketServicesImplTest {
 
         assertEquals(expectedDto, result);
         assertEquals(Estado.NUEVO, entity.getEstado());
-        assertEquals("user", entity.getUsuarioGenerador());
+        assertEquals("ADminJava", entity.getUsuarioGenerador());
         assertNotNull(entity.getCodigo());
         assertNotNull(entity.getFechaCreacion());
     }
@@ -197,5 +164,79 @@ class TicketServicesImplTest {
 
         List<TicketDto> result = service.getTicketToNow();
         assertEquals(dtos, result);
+    }
+
+    @Test
+    void findBySolicitante_existingSolicitante_returnsTicketDto() {
+        String solicitante = "Juan";
+        Ticket ticket = new Ticket();
+        TicketDto ticketDto = new TicketDto();
+
+        when(repository.findBySolicitante(solicitante)).thenReturn(Optional.of(ticket));
+        when(mapper.toDto(ticket)).thenReturn(ticketDto);
+
+        Optional<TicketDto> result = service.findBySolicitante(solicitante);
+
+        assertTrue(result.isPresent());
+        assertEquals(ticketDto, result.get());
+        verify(repository).findBySolicitante(solicitante);
+        verify(mapper).toDto(ticket);
+    }
+
+    @Test
+    void findBySolicitante_nonExistingSolicitante_returnsEmptyOptional() {
+        String solicitante = "SolicitanteNoExit";
+        when(repository.findBySolicitante(solicitante)).thenReturn(Optional.empty());
+
+        Optional<TicketDto> result = service.findBySolicitante(solicitante);
+
+        assertFalse(result.isPresent());
+        verify(repository).findBySolicitante(solicitante);
+        verify(mapper, never()).toDto(any());
+    }
+
+    @Test
+    void testUpdate() {
+        TicketDto input = new TicketDto();
+        input.setComentario("Se atendera enseguida");
+        input.setSolicitante("Piero");
+        input.setEstado(Estado.ASIGNADO);
+
+        TicketDto elemento = new TicketDto();
+        elemento.setComentario("Se atendera enseguida");
+        elemento.setSolicitante("Maria");
+        elemento.setEstado(Estado.ASIGNADO);
+
+        Ticket entity = new Ticket();
+        Ticket savedEntity = new Ticket();
+        TicketDto expectedDto = new TicketDto();
+
+        when(mapper.toEntity(elemento)).thenReturn(entity);
+        when(repository.save(entity)).thenReturn(savedEntity);
+        when(mapper.toDto(savedEntity)).thenReturn(expectedDto);
+
+        TicketDto result = service.update(input, elemento);
+
+        assertEquals(expectedDto, result);
+        assertEquals("Se atendera enseguida", elemento.getComentario());
+        assertEquals("Maria", elemento.getSolicitante());
+        assertEquals(Estado.ASIGNADO, elemento.getEstado());
+    }
+
+    @Test
+    void getNextOrdenForToday_noTicketsToday_returns1() throws Exception {
+        Ticket oldTicket = new Ticket();
+        oldTicket.setFechaCreacion(LocalDateTime.now().minusDays(1));
+        when(repository.findAll()).thenReturn(Collections.singletonList(oldTicket));
+
+        long orden = invokeGetNextOrdenForToday(service);
+
+        assertEquals(1, orden);
+    }
+
+    long invokeGetNextOrdenForToday(TicketServicesImpl service) throws Exception {
+        Method method = TicketServicesImpl.class.getDeclaredMethod("getNextOrdenForToday");
+        method.setAccessible(true);
+        return (long) method.invoke(service);
     }
 }
