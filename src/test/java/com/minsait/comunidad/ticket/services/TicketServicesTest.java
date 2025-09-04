@@ -194,4 +194,32 @@ class TicketServicesImplTest {
         verify(repository).findBySolicitante(solicitante);
         verify(mapper, never()).toDto(any());
     }
+
+    @Test
+    void testUpdate() {
+        TicketDto input = new TicketDto();
+        input.setComentario("Se atendera enseguida");
+        input.setSolicitante("Piero");
+        input.setEstado(Estado.ASIGNADO);
+
+        TicketDto elemento = new TicketDto();
+        elemento.setComentario("Se atendera enseguida");
+        elemento.setSolicitante("Maria");
+        elemento.setEstado(Estado.ASIGNADO);
+
+        Ticket entity = new Ticket();
+        Ticket savedEntity = new Ticket();
+        TicketDto expectedDto = new TicketDto();
+
+        when(mapper.toEntity(elemento)).thenReturn(entity);
+        when(repository.save(entity)).thenReturn(savedEntity);
+        when(mapper.toDto(savedEntity)).thenReturn(expectedDto);
+
+        TicketDto result = service.update(input, elemento);
+
+        assertEquals(expectedDto, result);
+        assertEquals("Se atendera enseguida", elemento.getComentario());
+        assertEquals("Maria", elemento.getSolicitante());
+        assertEquals(Estado.ASIGNADO, elemento.getEstado());
+    }
 }
