@@ -1,10 +1,7 @@
 package com.minsait.comunidad.ticket.util;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 
 public class Utils {
     
@@ -24,6 +21,6 @@ public class Utils {
         String prefix = "TICKET";
         String uuid = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
         return prefix + uuid;
-        
+
     }
 }

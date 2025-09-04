@@ -17,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TicketDto {
     
-    
+    @Nullable
     private String id;
     @Nullable
     private String codigo;
