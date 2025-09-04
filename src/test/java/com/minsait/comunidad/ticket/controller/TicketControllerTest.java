@@ -157,7 +157,29 @@ public class TicketControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
+    @Test
+    void listAll_returnsTickets() throws Exception {
+        TicketDto ticket1 = new TicketDto();
+        TicketDto ticket2 = new TicketDto();
+        List<TicketDto> tickets = Arrays.asList(ticket1, ticket2);
 
+        when(service.findAll()).thenReturn(tickets);
 
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
 
+    @Test
+    void findByCodigo_existingTicket_returnsOk() throws Exception {
+        String codigo = "EXIST123";
+        TicketDto ticket = new TicketDto();
+        ticket.setCodigo(codigo);
+
+        when(service.findByCodigo(codigo)).thenReturn(Optional.of(ticket));
+
+        mockMvc.perform(get("/codigo/" + codigo))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.codigo", is(codigo)));
+    }
 }
