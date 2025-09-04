@@ -25,5 +25,4 @@ public class Utils {
         String uuid = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
         return prefix + uuid;
     }
-
 }
