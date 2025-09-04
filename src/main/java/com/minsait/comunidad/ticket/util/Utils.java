@@ -20,33 +20,10 @@ public class Utils {
     return dateTime.format(formatter);
   }
 
-  public static String generateCodigo() {
-      Random random = new Random();
+   public static String generateCodigo() {
         String prefix = "TICKET";
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        StringBuilder sb = new StringBuilder(12);
-       
-        for (int i = 0; i < 12; i++) {
-            sb.append(chars.charAt(random.nextInt(chars.length())));
-        }
-
-        return prefix + sb.toString();
+        String uuid = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
+        return prefix + uuid;
     }
-
-
- 
-
-
-public static String leerArchivo(String path) throws IOException {
-    FileInputStream fis = new FileInputStream(path);
-    byte[] data = fis.readAllBytes();
-    // Bug: el FileInputStream nunca se cierra
-    return new String(data);
-}
-
-public static String obtenerFechaActual() {
-    // Bug: LocalDateTime.now() depende de la zona horaria del sistema
-    return LocalDateTime.now().toString();
-}
 
 }
