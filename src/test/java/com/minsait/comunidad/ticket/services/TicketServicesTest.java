@@ -42,6 +42,20 @@ class TicketServicesImplTest {
     }
 
     @Test
+    void testFindBySolicitante(){
+        Ticket ticket = new Ticket();
+        TicketDto dto = new TicketDto();
+        
+        when(repository.findBySolicitante("solicitante")).thenReturn(Optional.of(ticket));
+        when(mapper.toDto(ticket)).thenReturn(dto);
+
+        Optional<TicketDto> result = service.findBySolicitante("solicitante");
+        assertTrue(result.isPresent());
+        assertEquals(dto, result.get());
+    }
+
+
+    @Test
     void testFindAll() {
         List<Ticket> tickets = List.of(new Ticket());
         List<TicketDto> dtos = List.of(new TicketDto());
