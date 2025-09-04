@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import com.minsait.comunidad.ticket.enums.Estado;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,13 +23,21 @@ public class Ticket{
     
     @Id
     private ObjectId id;
+    @Nullable
     private String codigo;
+    @Nullable
     private long orden;
+    @Nullable
     private String comentario;
+    @Nullable
     private String descripcion;
+    @Nullable
     private String solicitante;
+    @Nullable
     private String usuarioGenerador;
+    @Nullable
     private Estado estado;
+    @Nullable
     private LocalDateTime fechaCreacion;
 
 }
