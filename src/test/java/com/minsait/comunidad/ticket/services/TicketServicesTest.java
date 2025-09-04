@@ -8,9 +8,11 @@ import com.minsait.comunidad.ticket.repository.TicketRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Method;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
@@ -221,5 +223,22 @@ class TicketServicesImplTest {
         assertEquals("Se atendera enseguida", elemento.getComentario());
         assertEquals("Maria", elemento.getSolicitante());
         assertEquals(Estado.ASIGNADO, elemento.getEstado());
+    }
+    
+    @Test
+    void getNextOrdenForToday_noTicketsToday_returns1() throws Exception {
+        Ticket oldTicket = new Ticket();
+        oldTicket.setFechaCreacion(LocalDateTime.now().minusDays(1));
+        when(repository.findAll()).thenReturn(Collections.singletonList(oldTicket));
+
+        long orden = invokeGetNextOrdenForToday(service);
+
+        assertEquals(1, orden);
+    }
+
+    long invokeGetNextOrdenForToday(TicketServicesImpl service) throws Exception {
+        Method method = TicketServicesImpl.class.getDeclaredMethod("getNextOrdenForToday");
+        method.setAccessible(true);
+        return (long) method.invoke(service);
     }
 }
