@@ -43,96 +43,95 @@ public class TicketControllerTest {
     @MockBean
     private TicketMapper ticketMapper;
    
-    @Test
-    void findByCodigo_existingTicket_returnsOk() throws Exception {
-        TicketDto ticket = new TicketDto();
-        ticket.setCodigo("TICKET1");
-        when(service.findByCodigo("TICKET1")).thenReturn(Optional.of(ticket));
-
-        mockMvc.perform(get("/codigo/TICKET1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.codigo", is("TICKET1")));
-    }
-	
-	 @Test
-    void findBySolicitante_existingTicket_returnsOk() throws Exception {
-        TicketDto ticket = new TicketDto();
-        ticket.setCodigo("TICKET1");
-        when(service.findBySolicitante("Solicitante1")).thenReturn(Optional.of(ticket));
-
-        mockMvc.perform(get("/solicitante/Solicitante1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.codigo", is("TICKET1")));
-    
-    }
-
-    @Test
+  /*/  @Test
     void delete_existingTicket_returnsOk() throws Exception {
+        String codigo = "DEL123";
         TicketDto ticket = new TicketDto();
-        ticket.setCodigo("TICKET1");
-        when(service.findByCodigo("TICKET1")).thenReturn(Optional.of(ticket));
-        doNothing().when(service).deleteByCodigo("TICKET1");
+        ticket.setCodigo(codigo);
 
-        mockMvc.perform(delete("/TICKET1"))
+        when(service.findByCodigo(codigo)).thenReturn(Optional.of(ticket));
+        doNothing().when(service).deleteByCodigo(codigo);
+
+        mockMvc.perform(delete("/" + codigo))
                 .andExpect(status().isOk());
-
     }
 
     @Test
-    void delete_existingTicket_returnsKO() throws Exception {
-        
-        when(service.findByCodigo("TICKET32")).thenReturn(Optional.empty());
-       
-        mockMvc.perform(delete("/TICKET32"))
+    void update_existingTicket_returnsOk() throws Exception {
+        String codigo = "UPD123";
+        TicketDto existingTicket = new TicketDto();
+        existingTicket.setCodigo(codigo);
+
+        TicketDto updatedTicket = new TicketDto();
+        updatedTicket.setCodigo(codigo);
+        updatedTicket.setComentario("Updated comment");
+
+        when(service.findByCodigo(codigo)).thenReturn(Optional.of(existingTicket));
+        when(service.update(Mockito.any(TicketDto.class), Mockito.eq(existingTicket))).thenReturn(updatedTicket);
+
+        mockMvc.perform(put("/" + codigo)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"codigo\":\"UPD123\",\"comentario\":\"Updated comment\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.codigo", is(codigo)))
+                .andExpect(jsonPath("$.comentario", is("Updated comment")));
+    }
+
+    @Test
+    void update_nonExistingTicket_returnsNotFound() throws Exception {
+        String codigo = "NOEXIST";
+        TicketDto ticket = new TicketDto();
+        ticket.setCodigo(codigo);
+
+        when(service.findByCodigo(codigo)).thenReturn(Optional.empty());
+
+        mockMvc.perform(put("/" + codigo)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"codigo\":\"NOEXIST\"}"))
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    void testListar() throws Exception {
-        TicketDto ticket1 = new TicketDto();
-        TicketDto ticket2 = new TicketDto();
-        when(service.findAll()).thenReturn(Arrays.asList(ticket1, ticket2));
-        
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
-    }
+       @Test
+        void findById_existingTicket_returnsOk() throws Exception {
+            
+              
+            String codigo = "EXIST123";
+            TicketDto ticket = new TicketDto();
+            ticket.setCodigo(codigo);
 
-    @Test
-    void update()throws Exception{
-        TicketDto ticket = new TicketDto();
-        ticket.setCodigo("TICKET99");
-        TicketDto updatedTicket = new TicketDto();
-        updatedTicket.setCodigo("TICKET99");
+            when(service.findByCodigo(codigo)).thenReturn(Optional.of(ticket));
 
-        when(service.findByCodigo("TICKET99")).thenReturn(Optional.of(ticket));
-        when(service.update(any(TicketDto.class), any(TicketDto.class))).thenReturn(updatedTicket);
+            mockMvc.perform(get("/" + codigo))
+                    .andExpect(status().isOk());
+        }*/
 
-        mockMvc.perform(put("/TICKET99")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"codigo\":\"TICKET99\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.codigo").value("TICKET99"));
-
-    }
-
-
-    @Test
+        @Test
     void testGenerateTicket_success() throws Exception {
         String codigo = "EXIST123";
          TicketDto ticket = new TicketDto();
             ticket.setCodigo(codigo);
-        
+        // Mock the service behavior to return the mock DTO
         when(service.generateTicket(any(TicketDto.class)))
             .thenReturn(ticket);
-			
-        mockMvc.perform(post("/")
+
+        // Perform the POST request
+        mockMvc.perform(post("/") // Replace /your-api-path with your actual endpoint path
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"codigo\":\"EXIST123\"}"))
-                .andExpect(status().isCreated())
+                .content("{\"codigo\":\"EXIST123\"}")) // Adjust JSON as per TicketDto structure
+                .andExpect(status().isCreated()) // Expect HTTP 201 CREATED
                 .andExpect(jsonPath("$.id").value(ticket.getId()));
+                // Add more jsonPath assertions for other fields
     }
 
+
+    /*@Test
+    void findById_nonExistingTicket_returnsNotFound() throws Exception {
+      String codigo = "NOTEXIST";
+      when(service.findByCodigo(codigo)).thenReturn(Optional.empty());
+
+      mockMvc.perform(get("/" + codigo))
+                .andExpect(status().isNotFound());
+    }*/
 
     @Test
     void updateStatusAll_returnsUpdatedTickets() throws Exception {

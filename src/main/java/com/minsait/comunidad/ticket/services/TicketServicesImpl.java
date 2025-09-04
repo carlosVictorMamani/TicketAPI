@@ -61,11 +61,15 @@ public class TicketServicesImpl implements TicketServices {
                     t.setEstado(Estado.ATRASADO);
                     return mapper.toDto(repository.save(mapper.toEntity(t)));
                 }).toList();
-            
+            /* .filter(t -> t.getEstado() == Estado.ASIGNADO)
+            .map(t -> {
+                t.setEstado(Estado.ATRASADO);
+                return repository.save(mapper.toEntity(t));
+            })
+            .toList();
+        return mapper.toListDto(updatedTickets);*/
     }
         
-
-    
     @Override
     @Transactional
     public void deleteByCodigo(String codigo) {
