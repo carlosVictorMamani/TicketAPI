@@ -24,12 +24,19 @@ public class Ticket{
     private ObjectId id;
 	@Column(name = "codigo",  nullable = true)
     private String codigo;
+    @Column(name = "orden",  nullable = true)
     private long orden;
+    @Column(name = "comentario",  nullable = true)
     private String comentario;
+    @Column(name = "descripcion",  nullable = true)
     private String descripcion;
+    @Column(name = "descripcion",  nullable = true)
     private String solicitante;
+    @Column(name = "usuarioGenerador",  nullable = true)
     private String usuarioGenerador;
+    @Column(name = "estado",  nullable = true)
     private Estado estado;
+    @Column(name = "fechaCreacion",  nullable = true)
     private LocalDateTime fechaCreacion;
 
 }
