@@ -2,10 +2,13 @@ package com.minsait.comunidad.ticket.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 public class Utils {
     
   
+
+
   private Utils() {
     
   }
@@ -16,9 +19,18 @@ public class Utils {
   }
 
     public static String generateCodigo() {
-        String prefix = "TICKET";
-        String uuid = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
-        return prefix + uuid;
+      Random random = new Random();
+      /*   String prefix = "TICKET";
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        StringBuilder sb = new StringBuilder(12);
+       
+        for (int i = 0; i < 12; i++) {
+            sb.append(chars.charAt(random.nextInt(chars.length())));
+        }
+
+        return prefix + sb.toString();*/
+
+        return "TICKET" ;
     }
 
 }
