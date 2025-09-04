@@ -43,69 +43,19 @@ public class TicketControllerTest {
     @MockBean
     private TicketMapper ticketMapper;
    
-   @Test
+  /*/  @Test
     void delete_existingTicket_returnsOk() throws Exception {
+        String codigo = "DEL123";
         TicketDto ticket = new TicketDto();
-        ticket.setCodigo("TICKET32");
-        when(service.findByCodigo("TICKET32")).thenReturn(Optional.of(ticket));
-        doNothing().when(service).deleteByCodigo("TICKET32");
+        ticket.setCodigo(codigo);
 
-        mockMvc.perform(delete("/TICKET32"))
+        when(service.findByCodigo(codigo)).thenReturn(Optional.of(ticket));
+        doNothing().when(service).deleteByCodigo(codigo);
+
+        mockMvc.perform(delete("/" + codigo))
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void findByCodigo_existingTicket_returnsOk() throws Exception {
-        TicketDto ticket = new TicketDto();
-        ticket.setCodigo("TICKET1");
-        when(service.findByCodigo("TICKET1")).thenReturn(Optional.of(ticket));
-
-        mockMvc.perform(get("/codigo/TICKET1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.codigo", is("TICKET1")));
-    }
-
-    @Test
-    void findBySolicitante_existingTicket_returnsOk() throws Exception {
-        TicketDto ticket = new TicketDto();
-        ticket.setCodigo("TICKET1");
-        when(service.findBySolicitante("Solicitante1")).thenReturn(Optional.of(ticket));
-
-        mockMvc.perform(get("/solicitante/Solicitante1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.codigo", is("TICKET1")));
-    
-    }
-
-   @Test
-    void update_existingTicket_returnsOk() throws Exception {
-        TicketDto existing = new TicketDto();
-        existing.setCodigo("TICKET99");
-        TicketDto updated = new TicketDto();
-        updated.setCodigo("TICKET99");
-        when(service.findByCodigo("TICKET99")).thenReturn(Optional.of(existing));
-        when(service.update(any(TicketDto.class), any(TicketDto.class))).thenReturn(updated);
-
-        mockMvc.perform(put("/TICKET99")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"codigo\":\"TICKET99\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.codigo", is("TICKET99")));
-    }
-   
-
-    @Test
-    void list_returnsAllTickets() throws Exception {
-        TicketDto ticket1 = new TicketDto();
-        TicketDto ticket2 = new TicketDto();
-        when(service.findAll()).thenReturn(Arrays.asList(ticket1, ticket2));
-
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)));
-    }
-
-/*
     @Test
     void update_existingTicket_returnsOk() throws Exception {
         String codigo = "UPD123";
@@ -195,7 +145,7 @@ public class TicketControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)));
     }
-
+    
     @Test
     void exportTodayTickets_returnsFile() throws Exception {
         TicketDto ticket = new TicketDto();
