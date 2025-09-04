@@ -2,7 +2,6 @@ package com.minsait.comunidad.ticket.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 
 public class Utils {
     
