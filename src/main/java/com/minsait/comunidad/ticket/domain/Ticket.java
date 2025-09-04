@@ -22,7 +22,7 @@ public class Ticket{
     
     @Id
     private ObjectId id;
-    @Column
+    @Column(name = "comentario",  nullable = true)
     private String codigo;
     @Column
     private long orden;
