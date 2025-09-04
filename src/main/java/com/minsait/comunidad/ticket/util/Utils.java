@@ -24,5 +24,6 @@ public class Utils {
         String prefix = "TICKET";
         String uuid = java.util.UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
         return prefix + uuid;
+        
     }
 }
