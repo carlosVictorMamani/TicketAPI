@@ -79,6 +79,15 @@ public class TicketControllerTest {
     }
 
     @Test
+    void delete_existingTicket_returnsKO() throws Exception {
+        
+        when(service.findByCodigo("TICKET32")).thenReturn(Optional.empty());
+       
+        mockMvc.perform(delete("/TICKET32"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void update()throws Exception{
         TicketDto ticket = new TicketDto();
         ticket.setCodigo("TICKET99");
