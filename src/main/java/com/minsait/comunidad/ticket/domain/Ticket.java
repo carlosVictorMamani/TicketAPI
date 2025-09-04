@@ -22,13 +22,21 @@ public class Ticket{
     
     @Id
     private ObjectId id;
+    @Column
     private String codigo;
+    @Column
     private long orden;
+    @Column
     private String comentario;
+    @Column
     private String descripcion;
+    @Column
     private String solicitante;
+    @Column
     private String usuarioGenerador;
+    @Column
     private Estado estado;
+    @Column
     private LocalDateTime fechaCreacion;
 
 }
