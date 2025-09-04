@@ -66,6 +66,18 @@ class TicketServicesImplTest {
         assertEquals(dto, result.get());
     }
 
+    @Test
+    void testFindBySolicitante() {
+        Ticket ticket = new Ticket();
+        TicketDto dto = new TicketDto();
+        when(repository.findBySolicitante("Juan")).thenReturn(Optional.of(ticket));
+        when(mapper.toDto(ticket)).thenReturn(dto);
+
+        Optional<TicketDto> result = service.findBySolicitante("Juan");
+        assertTrue(result.isPresent());
+        assertEquals(dto, result.get());
+    }
+
    @Test
     void update_shouldUpdateComentarioAndEstado() {
         // Arrange
