@@ -35,20 +35,16 @@ public class TicketController {
     @DeleteMapping("/{codigo}")
     public ResponseEntity<?> delete(String codigo) {
         Optional<TicketDto> existingTicket = ticketServices.findByCodigo(codigo);
-        if(existingTicket !=null) {
+        if(existingTicket.isPresent()) {
             ticketServices.deleteByCodigo(existingTicket.get().getCodigo());
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{codigo}")
+    @GetMapping("codigo/{codigo}")
     public ResponseEntity<?> findByCodigo(@PathVariable String codigo) {
         
-        if(codigo == null || codigo.isEmpty()) {
-            return ResponseEntity.badRequest().body("ID cannot be null or empty");
-        }
-       
         Optional<TicketDto> ticketOptional = ticketServices.findByCodigo(codigo);
         
         if(ticketOptional.isPresent()) {
@@ -57,12 +53,12 @@ public class TicketController {
             return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/{solicitante}")
+    @GetMapping("solicitante/{solicitante}")
     public ResponseEntity<?> findBySolicitante(@PathVariable String solicitante) {
               
         Optional<TicketDto> ticketOptional = ticketServices.findBySolicitante(solicitante);
 
-        if(ticketOptional!=null) {
+        if(ticketOptional.isPresent()) {
             return ResponseEntity.ok(ticketOptional.get());
         }
             return ResponseEntity.notFound().build();
