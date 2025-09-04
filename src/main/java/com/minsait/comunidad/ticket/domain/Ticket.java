@@ -23,21 +23,14 @@ public class Ticket{
     
     @Id
     private ObjectId id;
-    @Nullable
+    
     private String codigo;
-    @Nullable
     private long orden;
-    @Nullable
     private String comentario;
-    @Nullable
     private String descripcion;
-    @Nullable
     private String solicitante;
-    @Nullable
     private String usuarioGenerador;
-    @Nullable
     private Estado estado;
-    @Nullable
     private LocalDateTime fechaCreacion;
 
 }
