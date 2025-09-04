@@ -1,0 +1,30 @@
+package com.minsait.comunidad.ticket.dto;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import com.minsait.comunidad.ticket.enums.Estado;
+
+import jakarta.annotation.Nullable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class TicketDto {
+    
+    private String id;
+    private String codigo;
+    private long orden;
+    private String comentario;
+    private String descripcion;
+    private String solicitante;
+    private String usuarioGenerador;
+    private Estado estado;
+    private LocalDateTime fechaCreacion;
+
+}
