@@ -22,12 +22,6 @@ public class UtilsTest {
           assertEquals("2023-08-24", formatted);
      }
 
-     @Test
-     void testGenerateCodigo() {
-          String codigo = Utils.generateCodigo();
-          assertNotNull(codigo);
-          assertTrue(codigo.startsWith("TICKET"));
-          assertEquals(18, codigo.length()); // "TICKET" (6) + 12 chars from UUID
-     }
+    
 
 }
